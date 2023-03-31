@@ -1,2 +1,2 @@
 # sudoku-solver
-A Machine Learning project
+A Machine Learning and Computer Vision project
