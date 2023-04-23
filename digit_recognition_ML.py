@@ -38,7 +38,7 @@ fonts = glob.glob("C:\\Windows\\Fonts" + "\\*.ttf")
 
 # create training set
 trainX, trainY = [], []
-for i in range(20000):
+for i in range(25000):
     image, digit = generate_sample_image()
     image = image/255
     trainX.append(image)
@@ -77,6 +77,7 @@ model = keras.Sequential([
     keras.layers.Conv2D(32, (5, 5), activation="relu"),
     keras.layers.MaxPool2D((2, 2)),
     keras.layers.Flatten(),
+    keras.layers.Dense(32, activation="relu"),
     keras.layers.Dense(9, activation="softmax")
 ])
 
@@ -85,6 +86,7 @@ model.compile(
     loss=tf.keras.losses.CategoricalCrossentropy(),
     metrics=["categorical_accuracy"],
 )
+
 model.fit(trainX, trainY, epochs=3)
 
 # evaluating and saving as a file for future
