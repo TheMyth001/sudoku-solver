@@ -72,18 +72,22 @@ testY = tf.one_hot(
 
 # building the model
 model = keras.Sequential([
-    keras.layers.Flatten(input_shape=(50, 50)),
-    keras.layers.Dense(128, input_shape=(2500, ), activation="relu"),
-    keras.layers.Dense(96, activation="relu"),
+    keras.layers.Conv2D(16, (3, 3), activation="relu", input_shape=(50, 50, 1)),
+    keras.layers.MaxPool2D((2, 2)),
+    keras.layers.Conv2D(32, (5, 5), activation="relu"),
+    keras.layers.MaxPool2D((2, 2)),
+    keras.layers.Flatten(),
     keras.layers.Dense(9, activation="softmax")
 ])
+
 model.compile(
     optimizer="adam",
-    loss="mean_squared_error",
+    loss=tf.keras.losses.CategoricalCrossentropy(),
     metrics=["categorical_accuracy"],
 )
-model.fit(trainX, trainY, epochs=6)
+model.fit(trainX, trainY, epochs=3)
 
 # evaluating and saving as a file for future
+print("\nTest set:")
 model.evaluate(testX, testY)
-model.save('digit_recognition_model.h5')
+model.save('digit_recognition_model_CNN.h5')
